@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crazy Music Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1e1e2f, #3e3e60);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px;
+            min-height: 100vh;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: #f9f871;
+        }
+
+        form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            font-size: 1em;
+            width: 300px;
+            border: none;
+            border-radius: 6px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: #f9f871;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #333;
+            font-weight: bold;
+        }
+
+        #results div {
+            background-color: #2f2f4f;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        a {
+            color: #f9f871;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Search Your Favorite Music 🎵</h1>
+    <form id="searchForm">
+        <input type="text" id="query" placeholder="Search music..." required>
+        <button type="submit">Search</button>
+    </form>
+
+    <div id="results"></div>
+
+    <script>
+        document.getElementById('searchForm').onsubmit = async function(e) {
+            e.preventDefault();
+            const query = document.getElementById('query').value;
+            
+            const response = await fetch('/search', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({query: query})
+            });
+            
+            const data = await response.json();
+            const resultsDiv = document.getElementById('results');
+            
+            if (data.results) {
+                resultsDiv.innerHTML = data.results.map(song => 
+                    `<div>
+                        <h3>${song.title}</h3>
+                        <p>${song.artists[0].name}</p>
+                        <a href="/play/${song.videoId}">Play</a>
+                        <a href="/download/${song.videoId}">Download</a>
+                    </div>`
+                ).join('');
+            } else {
+                resultsDiv.innerHTML = '<p>No results found</p>';
+            }
+        };
+    </script>
+</body>
+</html>
