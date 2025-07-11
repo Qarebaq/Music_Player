@@ -26,8 +26,8 @@ pip install flask yt-dlp requests
 
 ### 1. کلون کردن پروژه
 ```bash
-git clone https://github.com/yourusername/soundcloud-music-streamer.git
-cd soundcloud-music-streamer
+git clone [https://github.com/yourusername/soundcloud-music-streamer.git](https://github.com/Qarebaq/Music_Player.git)
+cd Music_Player
 ```
 
 ### 2. ایجاد محیط مجازی (اختیاری اما توصیه شده)
